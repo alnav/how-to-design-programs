@@ -285,64 +285,6 @@
               [else (last (rest p))])))
     (render-line (connect-dots img p) (first p) (last p))))
 
-; ---------------
-;; Exercise 259.
-; ---------------
-;Use a local expression to organize the functions for rearranging words from Word Games, the Heart of the Problem.
-
-; ---------------
-;; Exercise 260.
-; ---------------
-;Confirm the insight about the performance of inf.v2 by repeating the performance experiment of exercise 238.
-
-; ---------------
-;; Exercise 261.
-; ---------------
-;Consider the function definition in figure 101.
-;Both clauses in the nested cond expression extract the first item from an-inv and both compute (extract1 (rest an-inv)).
-;Use local to name this expression.
-;Does this help increase the speed at which the function computes its result?
-;Significantly? A little bit? Not at all?
-
-; ---------------
-;; Exercise 262. 
-; ---------------
-;Design the function identityM, which creates diagonal squares of 0s and 1s:
-;(check-expect (identityM 1 (list (list 1))))
-;(check-expect (identityM 3 (list (list 1 0 0) (list 0 1 0) (list 0 0 1))))
-
-; Natural -> list-of-list-of Naturals(0,1)
-; (define (identityM n) ...)
 
 
-(define (add-zeros n)
-  (cond
-    [(= n 1) empty]
-    [else
-     (cons 0 (add-zeros (- n 1)))]))
-
-(define (append-one n)
-  (cons 1 (add-zeros n)))
-
-(define (last l)
-  (cond
-    [(empty? (rest l)) (first l)]
-    [else
-     (last (rest l))]))
-
-(define (eliminate-last l)
-  (cond
-    [(empty? (rest l)) '()]
-    [else
-     (cons (first l) (eliminate-last (rest l)))]))
-
-(define l1 (append-one 3))
-
-(define (arrange l times)
-  (cond
-    [(= times 0) '()]
-    [else
-     (cons (cons 0 (eliminate-last l)) (arrange (cons 0 (eliminate-last l)) (- times 1)))]))
-
-(define (identityM n)
-  (cons (append-one n) (arrange (append-one n) (- n 1))))
+          
