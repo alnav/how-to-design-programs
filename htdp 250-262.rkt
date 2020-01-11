@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-advanced-reader.ss" "lang")((modname |htdp 250-|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
+#reader(lib "htdp-advanced-reader.ss" "lang")((modname |htdp 250-262|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 (require 2htdp/image)
 ; ---------------
 ;; Exercise 250.
@@ -95,7 +95,7 @@
     [else
      (* (first l)
         (product
-          (rest l)))]))
+         (rest l)))]))
   
 
 ; [List-of Posn] -> Image
@@ -110,9 +110,9 @@
 ; Posn Image -> Image 
 (define (place-dot p img)
   (place-image
-     dot
-     (posn-x p) (posn-y p)
-     img))
+   dot
+   (posn-x p) (posn-y p)
+   img))
  
 ; graphical constants:    
 (define emt
@@ -227,7 +227,8 @@
 ;; Exercise 257.
 ; ---------------
 
-;You can design build-list and foldl with the design recipes that you know, but they are not going to be like the ones that ISL provides.
+;You can design build-list and foldl with the design recipes that you know,
+;but they are not going to be like the ones that ISL provides.
 ;For example, the design of your own foldl function requires a use of the list reverse function:
 ; [X Y] [X Y -> Y] Y [List-of X] -> Y
 ; f*oldl works just like foldl
@@ -314,35 +315,39 @@
 ; Natural -> list-of-list-of Naturals(0,1)
 ; (define (identityM n) ...)
 
-
-(define (add-zeros n)
-  (cond
-    [(= n 1) empty]
-    [else
-     (cons 0 (add-zeros (- n 1)))]))
-
-(define (append-one n)
-  (cons 1 (add-zeros n)))
-
-(define (last l)
-  (cond
-    [(empty? (rest l)) (first l)]
-    [else
-     (last (rest l))]))
-
-(define (eliminate-last l)
-  (cond
-    [(empty? (rest l)) '()]
-    [else
-     (cons (first l) (eliminate-last (rest l)))]))
-
-(define l1 (append-one 3))
-
-(define (arrange l times)
-  (cond
-    [(= times 0) '()]
-    [else
-     (cons (cons 0 (eliminate-last l)) (arrange (cons 0 (eliminate-last l)) (- times 1)))]))
-
 (define (identityM n)
-  (cons (append-one n) (arrange (append-one n) (- n 1))))
+  (local ((define (add-zeros n)
+            (cond
+              [(= n 1) empty]
+              [else
+               (cons 0
+                     (add-zeros (- n 1)))]))
+          (define (append-one n)
+            (cons 1
+                  (add-zeros n)))
+          (define (last l)
+            (cond
+              [(empty? (rest l)) (first l)]
+              [else
+               (last (rest l))]))
+          (define (eliminate-last l)
+            (cond
+              [(empty? (rest l)) '()]
+              [else
+               (cons (first l)
+                     (eliminate-last (rest l)))]))
+          (define (arrange l times)
+            (cond
+              [(= times 0) '()]
+              [else
+               (cons (cons 0 (eliminate-last l))
+                     (arrange (cons 0 (eliminate-last l)) (- times 1)))])))
+    (cons (append-one n) (arrange (append-one n) (- n 1)))))
+
+
+
+
+
+
+
+
